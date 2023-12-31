@@ -1,0 +1,11 @@
+setuptools
+python-ulid
+requests
+cryptography
+jwt
+nats-python
+flask
+flasgger
+pyjwt
+extracttoc
+seqdiag
