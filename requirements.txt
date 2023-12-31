@@ -9,3 +9,4 @@ flasgger
 pyjwt
 extracttoc
 seqdiag
+db-sqlite3
