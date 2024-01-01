@@ -1,6 +1,7 @@
 import sqlite3
+from modules.storage import User
 class Auth:
-    def __init__(self, db:sqlite3) -> None:
+    def __init__(self, userStorage: ) -> None:
         self.db = None
        
     def auth(self, user: str, passwd:str) -> str:
