@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from modules.util.logger import Logger
 
 class DbConnection:
     def __init__(self, connStr:str) -> None:
@@ -10,6 +11,7 @@ class DbConnection:
 
     def _testConnection(self) -> bool:
         if self.db is None:
+            Logger.error(f"database error: Connection is not established")
             return False
 
         return self.db.is_connected()
@@ -40,6 +42,7 @@ class DbConnection:
 
             ret = cursor.rowcount
         except Exception as e:
+            Logger.error(f"database error: {e}")
             raise e
         finally:
             if autoCommit:
@@ -62,6 +65,7 @@ class DbConnection:
 
             ret = cursor.lastrowid
         except Exception as e:
+            Logger.error(f"database error: {e}")
             raise e
         finally:
             if autoCommit:
@@ -91,6 +95,7 @@ class DbConnection:
                 return ret
             
         except Exception as e:
+            Logger.error(f"database error: {e}")
             raise e
         finally:
             if autoCommit:

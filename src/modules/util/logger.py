@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 # Background Colors to log messages
 class bcolors:
@@ -13,14 +14,21 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 class Logger:
+    def init():
+        logging.basicConfig(filename='talkye.log', level=logging.DEBUG) 
+
     def Info(message):
-        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKCYAN}{message}")
+        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKCYAN}{message}"
+        logging.info(formatted) 
 
     def Error(message):
-        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.FAIL}{message}")
+        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.FAIL}{message}"
+        logging.error(formatted)
 
     def Success(message):
-        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKGREEN}{message}") 
+        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKGREEN}{message}"
+        logging.info(formatted)
 
     def Warning(message):
-        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.WARNING}{message}") 
+        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.WARNING}{message}"
+        logging.warning(formatted)

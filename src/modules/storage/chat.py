@@ -27,24 +27,12 @@ class ChatStorage:
         return chat
 
     def addUser(self, chatId:str, user:str) -> bool:
-        ret = False
-        try:
-            affected = self.db.execute("INSERT INTO chat_users (chat_id, user_id) VALUES (?, ?)", (chatId, user))
-            ret = affected > 0
-        except Exception as e:
-            print(e)
-
-        return ret
+        affected = self.db.execute("INSERT INTO chat_users (chat_id, user_id) VALUES (?, ?)", (chatId, user))
+        return affected > 0
     
     def removeUser(self, chatId:str, user:str) -> bool:
-        ret = False
-        try:
-            affected = self.db.execute("DELETE FROM chat_users WHERE chat_id = ? AND user_id = ?", (chatId, user))
-            ret = affected > 0
-        except Exception as e:
-            print(e)
-
-        return ret
+        affected = self.db.execute("DELETE FROM chat_users WHERE chat_id = ? AND user_id = ?", (chatId, user))
+        return affected > 0
 
     def _getCreateTableScript(self) -> str:
         return """

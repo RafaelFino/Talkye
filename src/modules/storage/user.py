@@ -10,14 +10,8 @@ class UserStorage:
         return self.db.executeInsert("INSERT INTO users (name, passwd) VALUES (?, ?)", (user, passwd))
 
     def update(self, id:str, user:str, passwd:str) -> bool:
-        ret = False
-        try:
-            affected = self.db.execute("UPDATE users SET passwd = ? AND name = ? WHERE id = ?", (passwd, user, id))
-            ret = affected > 0
-        except Exception as e:
-            print(e)
-
-        return ret
+        affected = self.db.execute("UPDATE users SET passwd = ? AND name = ? WHERE id = ?", (passwd, user, id))
+        return affected > 0
 
     def get(self, id) -> User:
         user = User()
