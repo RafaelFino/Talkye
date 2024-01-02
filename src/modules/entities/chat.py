@@ -1,7 +1,7 @@
 from modules.entities.user import User
 
 class Chat:
-    def __init__(self, name: str) -> None:        
+    def __init__(self) -> None:        
         self.id = None
         self.name = None    
         self.messages = [] 
@@ -35,11 +35,11 @@ class Chat:
         if json is None:
             raise Exception("Json is None")
         
-        if "id" not in json:
+        if "id" in json:
             self.id = None
 
-        if "name" not in json:
-            raise Exception("Json does not have name key")
+        if "name" in json:
+            self.name = json["name"]
         
         if "messages" not in json:
             self.messages = []
@@ -51,4 +51,5 @@ class Chat:
             self.created_at = json["created_at"]
 
         if "updated_at" in json:
-            self.updated_at = json["updated_at"]    
+            self.updated_at = json["updated_at"]
+

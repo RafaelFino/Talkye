@@ -3,9 +3,9 @@ from datetime import datetime
 from modules.entities.user import User
 
 class Message:
-    def __init__(self, userId: int, chatId: int, message: str) -> None:
-        self.userId = userId
-        self.message = message
+    def __init__(self) -> None:
+        self.userId = None
+        self.message = None
         self.chatId = None
         self.timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.id = None

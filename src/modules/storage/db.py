@@ -1,4 +1,5 @@
 import sqlite3
+import json
 
 class DbConnection:
     def __init__(self, connStr:str) -> None:
@@ -25,7 +26,7 @@ class DbConnection:
         if self.db is not None:
             self.db.rollback()
 
-    def execute(self, sql:str, params:tuple=None, autoCommit:bool=True):
+    def execute(self, sql:str, params:tuple=None, autoCommit:bool=True) -> int:
         if not self._testConnection():
             raise Exception("Connection is not established")
 
@@ -33,11 +34,11 @@ class DbConnection:
         ret = None
         try:
             if params is None:
-                ret = cursor.execute(sql)
+                cursor.execute(sql)
             else:
-                ret = cursor.execute(sql, params)
+                cursor.execute(sql, params)
 
-            return ret                
+            ret = cursor.rowcount
         except Exception as e:
             raise e
         finally:
@@ -45,20 +46,50 @@ class DbConnection:
                 self.db.commit()
             cursor.close()
 
+        return ret
+
+    def executeInsert(self, sql:str, params:tuple=None, autoCommit:bool=True) -> int:
+        if not self._testConnection():
+            raise Exception("Connection is not established")
+
+        cursor = self.db.cursor()
+        ret = -1
+        try:
+            if params is None:
+                cursor.execute(sql)
+            else:
+                cursor.execute(sql, params)
+
+            ret = cursor.lastrowid
+        except Exception as e:
+            raise e
+        finally:
+            if autoCommit:
+                self.db.commit()
+
+            cursor.close()
+
+        return ret
+
+    def query(self, sql:str, params:tuple=None, autoCommit:bool=True, json_str:bool=True):    
+        if not self._testConnection():
+            raise Exception("Connection is not established")
         
-
-    def query(self, sql:str, params:tuple=None, autoCommit:bool=True) -> list:    
-        if not self._testConnection():
-            raise Exception("Connection is not established")
-
         cursor = self.db.cursor()
+
         try:
             if params is None:
                 cursor.execute(sql)
             else:
-                cursor.execute(sql, params)
+                cursor.execute(sql, params)            
 
-            return cursor.fetchall()
+            ret = cursor.fetchall()
+
+            if json_str:
+                return json.dumps( [dict(ix) for ix in ret] )
+            else:
+                return ret
+            
         except Exception as e:
             raise e
         finally:
@@ -66,23 +97,3 @@ class DbConnection:
                 self.db.commit()
 
             cursor.close()
-
-    def queryOne(self, sql:str, params:tuple=None, autoCommit:bool=True) -> list:    
-        if not self._testConnection():
-            raise Exception("Connection is not established")
-
-        cursor = self.db.cursor()
-        try:
-            if params is None:
-                cursor.execute(sql)
-            else:
-                cursor.execute(sql, params)
-
-            return cursor.fetchone()
-        except Exception as e:
-            raise e
-        finally:
-            if autoCommit:
-                self.db.commit()
-
-            cursor.close()    

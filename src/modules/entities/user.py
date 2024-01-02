@@ -1,8 +1,8 @@
 class User:    
-    def __init__(self, user:str, token:str) -> None:
-        self.id
-        self.user = user
-        self.token = token
+    def __init__(self) -> None:
+        self.id = None
+        self.user = None
+        self.token = None
         self.created_at = None
         self.updated_at = None        
 
