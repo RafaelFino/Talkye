@@ -5,14 +5,13 @@ from modules.util.logger import Logger
 class DbConnection:
     def __init__(self, connStr:str) -> None:
         self._connStr = connStr
-
-    def connect(self):
-        self.db = sqlite3.connect(self._connStr, autocommit=False)
-
+        
     def _testConnection(self) -> bool:
         if self.db is None:
-            Logger.error(f"database error: Connection is not established")
-            return False
+            self.db = sqlite3.connect(self._connStr, autocommit=False)
+            if self.db is None:                
+                Logger.error(f"database error: Connection is not established")
+                return False
 
         return self.db.is_connected()
     
