@@ -3,7 +3,7 @@ python-ulid
 requests
 cryptography
 jwt
-nats-python
+nats-py
 flask
 flasgger
 pyjwt
