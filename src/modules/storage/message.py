@@ -13,3 +13,21 @@ class MessageStorage:
 
     def getFromUser(self, userId:str, fromId:str = "") -> list:
         pass
+
+    def _createTableScript(self) -> str:
+        return """
+CREATE TABLE IF NOT EXISTS messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chat_id INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (chat_id) REFERENCES chats(id)
+);
+
+CREATE INDEX IF EXISTS messages_index_chat_id
+ON messages(chat_id);
+
+CREATE INDEX IF EXISTS messages_index_user_id
+ON messages(user_id);
+"""

@@ -4,9 +4,11 @@ class Chat:
     def __init__(self, name: str) -> None:        
         self.id = None
         self.name = None    
-        self.messages = {}  
-        self.users = {}
-    
+        self.messages = [] 
+        self.users = []
+        self.created_at = None
+        self.updated_at = None
+
     def send(self) -> bool:
         return
     
@@ -14,15 +16,39 @@ class Chat:
         self.users[user.id] = user  
     
     def toJson(self):
-        return {
+        ret = {
             "id": self.id,
             "name": self.name,
             "messages": self.messages,
             "users": self.users
         }
+
+        if self.created_at:
+            ret["created_at"] = self.created_at
+
+        if self.updated_at:
+            ret["updated_at"] = self.updated_at 
+
+        return ret
     
     def fromJson(self, json):
-        self.id = json["id"]
-        self.name = json["name"]
-        self.messages = json["messages"]
-        self.users = json["users"]  
+        if json is None:
+            raise Exception("Json is None")
+        
+        if "id" not in json:
+            self.id = None
+
+        if "name" not in json:
+            raise Exception("Json does not have name key")
+        
+        if "messages" not in json:
+            self.messages = []
+
+        if "users" not in json:
+            self.users = []
+
+        if "created_at" in json:
+            self.created_at = json["created_at"]
+
+        if "updated_at" in json:
+            self.updated_at = json["updated_at"]    

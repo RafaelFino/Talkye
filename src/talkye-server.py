@@ -7,10 +7,12 @@ import jwt
 import json
 from modules.crypto import AssimetricCrypto, SymetricCrypto
 
-def main():
-    app = Flask(__name__)
-    swagger = Swagger(app)
-    cripto = AssimetricCrypto()
+class Talkye:
+    def __init__(self) -> None:        
+        self.app = Flask(__name__)
+        self.swagger = Swagger(self.app)
+        self.cripto = AssimetricCrypto()
 
 if __name__ == "__main__":
-    main()
+    talkye = Talkye()
+    talkye.app.run(host="
