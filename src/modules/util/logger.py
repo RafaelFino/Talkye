@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+from modules.config import Config
 
 # Background Colors to log messages
 class bcolors:
@@ -14,21 +15,21 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 class Logger:
-    def init():
-        logging.basicConfig(filename='talkye.log', level=logging.DEBUG) 
+    def init():        
+        logging.basicConfig(filename=Config.LOG_NAME, level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
     def Info(message):
-        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKCYAN}{message}"
-        logging.info(formatted) 
+        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKCYAN}{message}")
+        logging.info(message)
 
     def Error(message):
-        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.FAIL}{message}"
-        logging.error(formatted)
+        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.FAIL}{message}")
+        logging.error(message, exc_info=True)
 
     def Success(message):
-        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKGREEN}{message}"
-        logging.info(formatted)
+        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.OKGREEN}{message}")
+        logging.info(message)
 
     def Warning(message):
-        formatted = f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.WARNING}{message}"
-        logging.warning(formatted)
+        print(f"{bcolors.BOLD}{bcolors.OKBLUE}[{datetime.now()}] {bcolors.WARNING}{message}")
+        logging.warning(message)
