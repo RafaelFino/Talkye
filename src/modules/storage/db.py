@@ -5,7 +5,8 @@ from modules.util.logger import Logger
 class DbConnection:
     def __init__(self, connStr:str) -> None:
         self._connStr = connStr
-        
+        self.db = None
+
     def _testConnection(self) -> bool:
         if self.db is None:
             self.db = sqlite3.connect(self._connStr, autocommit=False)
