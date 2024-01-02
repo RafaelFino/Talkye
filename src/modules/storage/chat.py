@@ -10,13 +10,13 @@ class ChatStorage:
     def create(self, chat:Chat) -> int:
         return self.db.executeInsert("INSERT INTO chats (name) VALUES (?)", (chat.name))
 
-    def getAll(self) -> list:
-        chats = []
+    def getAll(self) -> {}:
+        chats = {}
         data = self.db.executeSelect("SELECT id, name, created_at, updated_at FROM chats")
         for row in data:
             chat = Chat()
             chat.fromJson(row)
-            chats.append(chat)
+            chats[chat.id] = chat
         
         return chats
     
