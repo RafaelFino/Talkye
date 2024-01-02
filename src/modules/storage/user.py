@@ -10,7 +10,7 @@ class UserStorage:
         return self.db.executeInsert("INSERT INTO users (name, passwd) VALUES (?, ?)", (user, passwd))
 
     def update(self, id:str, user:str, passwd:str) -> bool:
-        affected = self.db.execute("UPDATE users SET passwd = ? AND name = ? WHERE id = ?", (passwd, user, id))
+        affected = self.db.execute("UPDATE users SET passwd = ?, name = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?", (passwd, user, id))
         return affected > 0
 
     def get(self, id) -> User:
@@ -24,15 +24,12 @@ class UserStorage:
     def _getCreateTableScript(self) -> str:
         return """
 CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER AUTOINCREMENT,
     name TEXT PRIMARY KEY,
     passwd TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE UNIQUE INDEX IF EXISTS users_index_id 
-ON users(id);
 
 CREATE INDEX IF EXISTS users_index_name
 ON users(name);

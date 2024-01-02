@@ -4,16 +4,16 @@ from modules.entities.user import User
 
 class Message:
     def __init__(self) -> None:
-        self.userId = None
+        self.user_name = None
         self.message = None
-        self.chatId = None
+        self.chat_id = None
         self.timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.id = None
         
     def toJson(self):
         ret = {
-            "userId": self.userId,
-            "chatId": self.chatId,
+            "user_name": self.user_name,
+            "chat_id": self.chat_id,
             "message": self.message,
             "timestamp": self.timestamp
         }
@@ -30,11 +30,11 @@ class Message:
         if "id" in json:
             self.id = json["id"]
 
-        if "userId" in json:
-            self.userId = json["userId"]
+        if "user_name" in json:
+            self.user_name = json["user_name"]
 
-        if "chatId" in json:
-            self.chatId = json["chatId"]    
+        if "chat_id" in json:
+            self.chat_id = json["chat_id"]    
 
         if "message" in json:
             self.message = json["message"]
